@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head}">
+    <meta charset="UTF-8">
+    <title>All The Pizza</title>
+</head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Chef ID</th>
+        <th>Chef Name</th>
+        <th>Action</th> <!-- Added for the Edit button -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pizza : ${pizzas}">
+        <td th:text="${pizza.id}"></td>
+        <td th:text="${pizza.name}"></td>
+        <td th:text="${pizza.chef != null} ? ${pizza.chef.id} : 'No ID'"></td>
+        <td th:text="${pizza.chef != null} ? ${pizza.chef.name} : 'No Chef'"></td>
+        <td>
+            <a th:href="@{/pizza/edit/{id}(id=${pizza.id})}" class="btn btn-info">Edit</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

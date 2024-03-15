@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head}">
+    <meta charset="UTF-8">
+    <title>Create Chef</title>
+</head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+<div class="container">
+    <h2>Create Chef</h2>
+    <form method="post" th:action="@{/chef/create}" th:object="${chef}">
+        <div class="form-group">
+            <label for="name">Chef Name:</label>
+            <input type="text" id="name" class="form-control" name="name" th:value="*{name}" required>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Create Chef</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

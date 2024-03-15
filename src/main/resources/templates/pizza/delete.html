@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: head">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<header th:replace="fragments :: header"></header>
+<div class="container mt-4">
+    <h2>Delete Pizzas</h2>
+    <table class="table table-bordered">
+        <thead class="thead-light">
+        <tr>
+            <th>Pizza Name</th>
+            <th>Chef's Name</th>
+            <th>Chef's ID</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pizza : ${pizzas}">
+            <td th:text="${pizza.name}"></td>
+            <td th:text="${pizza.chef != null} ? ${pizza.chef.id} : 'No ID'"></td>
+            <td th:text="${pizza.chef != null} ? ${pizza.chef.name} : 'No Chef'"></td>
+            <td>
+                <form th:action="@{/pizza/delete}" method="post">
+                    <input type="hidden" name="pizzaId" th:value="${pizza.id}" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
