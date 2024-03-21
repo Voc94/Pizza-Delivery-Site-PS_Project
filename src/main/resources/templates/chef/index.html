@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="~{fragments :: head}">
     <meta charset="UTF-8">
     <title></title>
@@ -9,14 +9,14 @@
 <table class="table">
     <thead>
     <tr>
-        <th>ID</th>
+        <th sec:authorize="hasRole('ADMIN')" >ID</th>
         <th>Name</th>
         <th>Pizza List</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="chef : ${chefs}">
-        <td th:text="${chef.id}"></td>
+        <td sec:authorize="hasRole('ADMIN')" th:text="${chef.id}"></td>
         <td th:text="${chef.name}"></td>
         <td>
             <div th:if="${chef.pizzas != null and !chef.pizzas.isEmpty()}">

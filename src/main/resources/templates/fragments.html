@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<html lang="en" xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="head">
     <meta charset="UTF-8">
     <title>Pizza Delivery</title>
@@ -18,27 +18,32 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav m-auto">
             <li class="nav-item">
                 <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/pizza">Pizza Table</a>
             </li>
-            <li class="nav-item">
+            <li sec:authorize="hasRole('ADMIN')" class="nav-item">
                 <a class="nav-link" href="/pizza/create">Create Pizzas</a>
             </li>
-            <li class="nav-item">
+            <li sec:authorize="hasRole('ADMIN')" class="nav-item">
                 <a class="nav-link" href="/pizza/delete">Delete Pizzas</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/chef">Chef Table</a>
             </li>
-            <li class="nav-item">
+            <li sec:authorize="hasRole('ADMIN')" class="nav-item">
                 <a class="nav-link" href="/chef/create">Create Chef</a>
             </li>
-            <li class="nav-item">
+            <li sec:authorize="hasRole('ADMIN')" class="nav-item">
                 <a class="nav-link" href="/chef/delete">Delete Chef</a>
+            </li>
+            <li class="nav-item ml-5">
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" class="btn btn-danger btn-sm" value="Sign Out"/>
+                </form>
             </li>
         </ul>
     </div>
