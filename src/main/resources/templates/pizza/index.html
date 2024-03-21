@@ -1,32 +1,60 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head th:replace="~{fragments :: head}">
     <meta charset="UTF-8">
     <title>All The Pizza</title>
 </head>
 <body>
 <header th:replace="~{fragments :: header}"></header>
+
+<div id="timer" style="text-align:center; font-size:20px; margin-top:20px;"></div>
+
 <table class="table">
     <thead>
     <tr>
-        <th>ID</th>
+        <th sec:authorize="hasRole('ADMIN')">ID</th>
         <th>Name</th>
-        <th>Chef ID</th>
+        <th sec:authorize="hasRole('ADMIN')">Chef ID</th>
         <th>Chef Name</th>
-        <th>Action</th> <!-- Added for the Edit button -->
+        <th sec:authorize="hasRole('ADMIN')">Action</th>
+        <th sec:authorize="hasRole('USER')">Order</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="pizza : ${pizzas}">
-        <td th:text="${pizza.id}"></td>
+        <td sec:authorize="hasRole('ADMIN')" th:text="${pizza.id}"></td>
         <td th:text="${pizza.name}"></td>
-        <td th:text="${pizza.chef != null} ? ${pizza.chef.id} : 'No ID'"></td>
-        <td th:text="${pizza.chef != null} ? ${pizza.chef.name} : 'No Chef'"></td>
-        <td>
+        <td sec:authorize="hasRole('ADMIN')" th:text="${pizza.chef != null ? pizza.chef.id : 'No ID'}"></td>
+        <td th:text="${pizza.chef != null ? pizza.chef.name : 'No Chef'}"></td>
+        <td sec:authorize="hasRole('ADMIN')">
             <a th:href="@{/pizza/edit/{id}(id=${pizza.id})}" class="btn btn-info">Edit</a>
+        </td>
+        <td sec:authorize="hasRole('USER')">
+            <button id="orderButton${pizza.id}" class="btn btn-info" onclick="startCountdown(this.id)">Order</button>
         </td>
     </tr>
     </tbody>
 </table>
-</body>
-</html>
+
+<script>
+    function startCountdown(buttonId) {
+        let duration = 30 * 60; // 30 mins
+        const button = document.getElementById(buttonId);
+
+        // span for display
+        const timerDisplay = document.createElement('span');
+        button.parentNode.replaceChild(timerDisplay, button); // replace button with span
+
+        const interval = setInterval(function() {
+            const minutes = parseInt(duration / 60, 10);
+            const seconds = parseInt(duration % 60, 10);
+
+            timerDisplay.textContent = minutes + "m " + seconds + "s ";
+
+            if (--duration < 0) {
+                clearInterval(interval);
+                timerDisplay.textContent = "Time's up!";
+            }
+        }, 1000);
+    }
+</script>

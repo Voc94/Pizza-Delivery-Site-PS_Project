@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: head">
+<head th:replace="~{fragments :: head}">
     <meta charset="UTF-8">
     <title></title>
 </head>
 <body>
-<header th:replace="fragments :: header"></header>
+<header th:replace="~{fragments :: header}"></header>
 <div class="container">
     <h2>Edit Pizza</h2>
     <form method="post" th:action="@{/pizza/edit/{id}(id=${pizza.id})}" th:object="${pizza}">
